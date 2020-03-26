@@ -1,0 +1,31 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+def mail(to,content,subject,cc=0):
+    if cc!=0:
+        message = MIMEMultipart(
+        "alternative", None, [MIMEText(content, 'html')])
+        message['To'] = to
+        message['Cc'] = cc
+        message['Subject']=subject
+        subject="LensDev Access Request"
+        smtp = smtplib.SMTP()
+        smtp.connect("smtplb.cerner.com", 25)
+        from_addr = "Test@cerner.com"
+        smtp.sendmail(from_addr, message["To"].split(",")+ message["Cc"].split(","), message.as_string())
+        smtp.quit()
+    else:
+        message = MIMEMultipart(
+        "alternative", None, [MIMEText(content, 'html')])
+        message['To'] = to
+        message['Subject']=subject
+        subject="LensDev Access Request"
+        smtp = smtplib.SMTP()
+        smtp.connect("smtplb.cerner.com", 25)
+        from_addr = "Test@cerner.com"
+        smtp.sendmail(from_addr, message["To"].split(","), message.as_string())
+        smtp.quit()
+        
+        
+ mail(to_email_id,message,subject,cc)
